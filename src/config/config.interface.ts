@@ -24,4 +24,8 @@ export interface Config {
         port: number
         ttl: number
     }
+    prayerTimes: {
+        url: string
+        location: string
+    }
 }

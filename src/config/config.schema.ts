@@ -19,4 +19,6 @@ export default Joi.object({
     REDIS_HOST: Joi.string().optional(),
     REDIS_PORT: Joi.number().optional(),
     REDIS_TTL: Joi.number().optional(),
+    PRAYER_TIMES_URL: Joi.string().uri().required(),
+    PRAYER_TIMES_LOCATION: Joi.string().required(),
 })
