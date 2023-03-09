@@ -17,6 +17,7 @@ class Jabarprov {
                         per_page: limit,
                         sort_order: 'DESC',
                         'domain[]': 'news',
+                        fuzziness: false,
                     },
                 }
             )
