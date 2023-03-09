@@ -1,6 +1,5 @@
 import config from './config/config'
 import Mongo from './database/mongo/mongo'
-import Jabarprov from './external/jabarprov'
 import Logger from './pkg/logger'
 import Redis from './pkg/redis'
 import Http from './transport/http/http'
