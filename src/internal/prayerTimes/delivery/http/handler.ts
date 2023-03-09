@@ -10,11 +10,9 @@ class Handler {
     public FindByDate() {
         return async (req: Request, res: Response, next: NextFunction) => {
             try {
-                const value = ValidateParams(FindByDate, req.params)
+                const value = ValidateParams(FindByDate, req.params.date)
 
-                const result = await this.usecase.FindByDate(
-                    new Date(value.date)
-                )
+                const result = await this.usecase.FindByDate(value)
                 return res.status(statusCode.OK).json({ data: result })
             } catch (error) {
                 return next(error)

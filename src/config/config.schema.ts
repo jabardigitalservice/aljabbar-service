@@ -18,7 +18,8 @@ export default Joi.object({
     REDIS_PORT: Joi.number().optional(),
     REDIS_TTL: Joi.number().optional(),
     PRAYER_TIMES_URL: Joi.string().uri().required(),
-    PRAYER_TIMES_LOCATION: Joi.string().required(),
+    PRAYER_TIMES_LONGITUDE: Joi.number().required(),
+    PRAYER_TIMES_LATITUDE: Joi.number().required(),
     JABARPROV_URL: Joi.string().uri().required(),
     JABARPROV_KEYWORD: Joi.string().required(),
 })

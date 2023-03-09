@@ -26,7 +26,8 @@ export interface Config {
     }
     prayerTimes: {
         url: string
-        location: string
+        longitude: number
+        latitude: number
     }
     jabarprov: {
         url: string
