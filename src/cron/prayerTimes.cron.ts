@@ -15,13 +15,14 @@ const prayerTimes = async () => {
     const calendar = await prayerTimes.Calender(today.year, today.month)
 
     for (const item of calendar) {
+        const date = ConvertTimestampToISODate(item.date.timestamp)
         await prayerTimesSchema.updateOne(
             {
-                date: ConvertTimestampToISODate(item.date.timestamp),
+                date,
             },
             {
-                timings: prayerTimes.FormatTimings(item.timings, '(WIB)'),
-                date: ConvertTimestampToISODate(item.date.timestamp),
+                times: prayerTimes.FormatTimes(item.timings, '+07:00 (WIB)'),
+                date,
             },
             {
                 upsert: true,

@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose'
 
 const schema = new Schema(
     {
-        timings: {
+        times: {
             type: Object,
             required: true,
         },

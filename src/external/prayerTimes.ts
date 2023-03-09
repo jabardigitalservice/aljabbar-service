@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { DateTime } from 'luxon'
 import winston from 'winston'
 import { Config } from '../config/config.interface'
 
@@ -29,15 +30,24 @@ class PrayerTimes {
             throw error
         }
     }
-    public FormatTimings = (timings: any, replace: string) => {
-        for (const key in timings) {
-            if (Object.prototype.hasOwnProperty.call(timings, key)) {
-                const time = timings[key].replace(` ${replace}`, '')
-                timings[key] = time
+    public FormatTimes = (times: any, replace: string) => {
+        for (const key in times) {
+            if (Object.prototype.hasOwnProperty.call(times, key)) {
+                const time = times[key].replace(replace, '').replace('T', ' ')
+                times[key] = DateTime.fromFormat(time, 'yyyy-MM-dd HH:mm:ss')
+                    .plus({ hours: 7 })
+                    .toBSON()
             }
         }
 
-        return timings
+        return {
+            fajr: times.Fajr,
+            dhuhr: times.Dhuhr,
+            asr: times.Asr,
+            maghrib: times.Maghrib,
+            isha: times.Isha,
+            imsak: times.Imsak,
+        }
     }
 }
 
