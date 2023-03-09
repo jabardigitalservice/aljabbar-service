@@ -33,4 +33,7 @@ export interface Config {
         url: string
         keyword: string
     }
+    coreData: {
+        url: string
+    }
 }
