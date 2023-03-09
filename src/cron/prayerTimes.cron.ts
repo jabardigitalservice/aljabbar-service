@@ -6,17 +6,6 @@ import { ConvertTimestampToISODate } from '../helpers/date'
 import prayerTimesSchema from '../database/mongo/schema/prayerTimes.schema'
 import Mongo from '../database/mongo/mongo'
 
-const formatTimings = (timings: any) => {
-    for (const key in timings) {
-        if (Object.prototype.hasOwnProperty.call(timings, key)) {
-            const element = timings[key]
-            timings[key] = element.replace(' (WIB)', '')
-        }
-    }
-
-    return timings
-}
-
 const prayerTimes = async () => {
     const { logger } = new Logger(config)
     await Mongo.connect(logger, config)
@@ -36,7 +25,7 @@ const prayerTimes = async () => {
                 date: ConvertTimestampToISODate(item.date.timestamp),
             },
             {
-                timings: formatTimings(item.timings),
+                timings: prayerTimes.FormatTimings(item.timings, '(WIB)'),
                 location: config.prayerTimes.location,
                 date: ConvertTimestampToISODate(item.date.timestamp),
             },

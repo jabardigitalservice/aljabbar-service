@@ -58,6 +58,17 @@ class PrayerTimes {
             throw error
         }
     }
+
+    public FormatTimings = (timings: any, replace: string) => {
+        for (const key in timings) {
+            if (Object.prototype.hasOwnProperty.call(timings, key)) {
+                const element = timings[key]
+                timings[key] = element.replace(` ${replace}`, '')
+            }
+        }
+
+        return timings
+    }
 }
 
 export default PrayerTimes
