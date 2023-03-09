@@ -1,5 +1,6 @@
 import config from './config/config'
 import Mongo from './database/mongo/mongo'
+import PrayerTime from './internal/prayerTimes/prayerTimes'
 import Logger from './pkg/logger'
 import Redis from './pkg/redis'
 import Http from './transport/http/http'
@@ -9,6 +10,9 @@ const main = async () => {
     await Mongo.connect(logger, config)
     const redis = new Redis(config, logger)
     const http = new Http(logger, config)
+
+    // Load App Internal
+    new PrayerTime(http, logger, config)
 
     if (config.app.env !== 'test') {
         http.Run(config.app.port.http)

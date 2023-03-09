@@ -34,7 +34,8 @@ const config: Config = {
     },
     prayerTimes: {
         url: env.PRAYER_TIMES_URL,
-        location: env.PRAYER_TIMES_LOCATION,
+        longitude: env.PRAYER_TIMES_LONGITUDE,
+        latitude: env.PRAYER_TIMES_LATITUDE,
     },
     jabarprov: {
         url: env.JABARPROV_URL,

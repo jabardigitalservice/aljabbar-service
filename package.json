@@ -7,7 +7,7 @@
         "start:dev": "npx nodemon",
         "build": "rimraf ./build && tsc",
         "start": "node build/src/main",
-        "lint:fix": "npx prettier --write .",
+        "lint:fix": "npx prettier --write ./src",
         "cron:run": "node build/src/cron/$npm_config_name.cron",
         "test": "echo \"Error: no test specified\" && exit 1"
     },

@@ -12,21 +12,15 @@ const prayerTimes = async () => {
 
     const prayerTimes = new PrayerTimes(config, logger)
     const today = DateTime.now()
-    const calendarByCity = await prayerTimes.CalenderByCity(
-        today.year,
-        today.month,
-        config.prayerTimes.location
-    )
+    const calendar = await prayerTimes.Calender(today.year, today.month)
 
-    for (const item of calendarByCity) {
+    for (const item of calendar) {
         await prayerTimesSchema.updateOne(
             {
-                location: config.prayerTimes.location,
                 date: ConvertTimestampToISODate(item.date.timestamp),
             },
             {
                 timings: prayerTimes.FormatTimings(item.timings, '(WIB)'),
-                location: config.prayerTimes.location,
                 date: ConvertTimestampToISODate(item.date.timestamp),
             },
             {

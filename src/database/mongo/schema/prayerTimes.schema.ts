@@ -10,10 +10,6 @@ const schema = new Schema(
             type: Date,
             required: true,
         },
-        location: {
-            type: String,
-            required: true,
-        },
     },
     {
         versionKey: false,
