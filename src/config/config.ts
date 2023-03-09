@@ -36,6 +36,10 @@ const config: Config = {
         url: env.PRAYER_TIMES_URL,
         location: env.PRAYER_TIMES_LOCATION,
     },
+    jabarprov: {
+        url: env.JABARPROV_URL,
+        keyword: env.JABARPROV_KEYWORD,
+    },
 }
 
 export default config

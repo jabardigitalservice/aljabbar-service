@@ -21,4 +21,6 @@ export default Joi.object({
     REDIS_TTL: Joi.number().optional(),
     PRAYER_TIMES_URL: Joi.string().uri().required(),
     PRAYER_TIMES_LOCATION: Joi.string().required(),
+    JABARPROV_URL: Joi.string().uri().required(),
+    JABARPROV_KEYWORD: Joi.string().required(),
 })
