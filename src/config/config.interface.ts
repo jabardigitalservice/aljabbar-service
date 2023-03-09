@@ -28,4 +28,8 @@ export interface Config {
         url: string
         location: string
     }
+    jabarprov: {
+        url: string
+        keyword: string
+    }
 }
