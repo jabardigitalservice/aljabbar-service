@@ -6,9 +6,20 @@ import { ConvertTimestampToISODate } from '../helpers/date'
 import prayerTimesSchema from '../database/mongo/schema/prayerTimes.schema'
 import Mongo from '../database/mongo/mongo'
 
-export default async () => {
+const formatTimings = (timings: any) => {
+    for (const key in timings) {
+        if (Object.prototype.hasOwnProperty.call(timings, key)) {
+            const element = timings[key]
+            timings[key] = element.replace(' (WIB)', '')
+        }
+    }
+
+    return timings
+}
+
+const prayerTimes = async () => {
     const { logger } = new Logger(config)
-    Mongo.connect(logger, config)
+    await Mongo.connect(logger, config)
 
     const prayerTimes = new PrayerTimes(config, logger)
     const today = DateTime.now()
@@ -38,13 +49,4 @@ export default async () => {
     process.exit()
 }
 
-const formatTimings = (timings: any) => {
-    for (const key in timings) {
-        if (Object.prototype.hasOwnProperty.call(timings, key)) {
-            const element = timings[key]
-            timings[key] = element.replace(' (WIB)', '')
-        }
-    }
-
-    return timings
-}
+export default prayerTimes()
