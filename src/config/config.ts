@@ -32,6 +32,10 @@ const config: Config = {
         port: env.REDIS_PORT,
         ttl: env.REDIS_TTL,
     },
+    prayerTimes: {
+        url: env.PRAYER_TIMES_URL,
+        location: env.PRAYER_TIMES_LOCATION,
+    },
 }
 
 export default config
