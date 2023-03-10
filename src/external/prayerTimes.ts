@@ -42,12 +42,13 @@ class PrayerTimes {
         }
 
         return {
+            imsak: times.Imsak,
             fajr: times.Fajr,
+            sunrise: times.Sunrise,
             dhuhr: times.Dhuhr,
             asr: times.Asr,
             maghrib: times.Maghrib,
             isha: times.Isha,
-            imsak: times.Imsak,
         }
     }
 }

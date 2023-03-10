@@ -2,9 +2,7 @@ import { NextFunction, Response } from 'express'
 import winston from 'winston'
 import Usecase from '../../usecase/usecase'
 import statusCode from '../../../../pkg/statusCode'
-import {
-    ValidateFormRequest,
-} from '../../../../helpers/validate'
+import { ValidateFormRequest } from '../../../../helpers/validate'
 import { Activity } from '../../entity/schema'
 
 class Handler {
