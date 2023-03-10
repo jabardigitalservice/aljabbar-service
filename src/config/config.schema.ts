@@ -22,4 +22,5 @@ export default Joi.object({
     PRAYER_TIMES_LATITUDE: Joi.number().required(),
     JABARPROV_URL: Joi.string().uri().required(),
     JABARPROV_KEYWORD: Joi.string().required(),
+    CORE_DATA_URL: Joi.string().uri().required(),
 })

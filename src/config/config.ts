@@ -41,6 +41,9 @@ const config: Config = {
         url: env.JABARPROV_URL,
         keyword: env.JABARPROV_KEYWORD,
     },
+    coreData: {
+        url: env.CORE_DATA_URL,
+    },
 }
 
 export default config
