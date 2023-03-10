@@ -36,4 +36,9 @@ export interface Config {
     coreData: {
         url: string
     }
+    youtube: {
+        api_url: string
+        api_key: string
+        channel_id: string
+    }
 }

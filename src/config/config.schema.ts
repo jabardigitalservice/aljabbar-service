@@ -23,4 +23,7 @@ export default Joi.object({
     JABARPROV_URL: Joi.string().uri().required(),
     JABARPROV_KEYWORD: Joi.string().required(),
     CORE_DATA_URL: Joi.string().uri().required(),
+    YOUTUBE_API_URL: Joi.string().uri().required(),
+    YOUTUBE_API_KEY: Joi.string().required(),
+    YOUTUBE_CHANNEL_ID: Joi.string().required(),
 })
