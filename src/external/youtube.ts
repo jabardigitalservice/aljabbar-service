@@ -3,20 +3,24 @@ import winston from 'winston'
 import { Config } from '../config/config.interface'
 
 class Youtube {
+    private options = {
+        maxResults: 10,
+        type: 'video',
+        order: 'date',
+        key: this.config.youtube.api_key,
+    }
+
     constructor(private config: Config, private logger: winston.Logger) {}
 
-    async Search(pageToken?: string) {
+    async Search() {
         try {
             const response = await axios.get(
                 this.config.youtube.api_url + '/search',
                 {
                     params: {
-                        key: this.config.youtube.api_key,
                         part: 'snippet',
                         channelId: this.config.youtube.channel_id,
-                        maxResults: 50,
-                        pageToken,
-                        type: 'video',
+                        ...this.options,
                     },
                 }
             )
@@ -28,18 +32,16 @@ class Youtube {
         }
     }
 
-    async Video(id: string) {
+    async Video(ids: string) {
         try {
             const response = await axios.get(
                 this.config.youtube.api_url + '/videos',
                 {
                     params: {
-                        id,
-                        key: this.config.youtube.api_key,
+                        ids,
                         part: 'snippet,statistics,player,contentDetails',
                         channelId: this.config.youtube.channel_id,
-                        maxResults: 1,
-                        type: 'video',
+                        ...this.options,
                     },
                 }
             )
