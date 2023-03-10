@@ -1,6 +1,7 @@
 import axios from 'axios'
 import winston from 'winston'
 import { Config } from '../config/config.interface'
+import { ConvertISOToDate } from '../helpers/date'
 
 class CoreData {
     constructor(private config: Config, private logger: winston.Logger) {}
@@ -18,14 +19,14 @@ class CoreData {
         }
     }
 
-    async Activity(startDate: string, endDate: string) {
+    async Activity(start_date: string, end_date: string) {
         try {
             const response = await axios.get(
                 this.config.coreData.url + `/kegiatan`,
                 {
                     params: {
-                        start_date: startDate,
-                        end_date: endDate,
+                        start_date: ConvertISOToDate(start_date),
+                        end_date: ConvertISOToDate(end_date),
                     },
                 }
             )
@@ -42,7 +43,7 @@ class CoreData {
             const response = await axios.get(
                 this.config.coreData.url + `/kegiatan/${id}`
             )
-            
+
             const { data } = response
             return data
         } catch (error) {
