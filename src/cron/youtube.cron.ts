@@ -12,14 +12,13 @@ const youtube = async () => {
     const search = await youtube.Search()
 
     for (const item of search.items) {
-        const { snippet, id, contentDetails } = item
+        const { snippet, id } = item
         const data = {
             video_id: id.videoId,
             title: snippet.title,
             description: snippet.description,
             thumbnail: `https://i.ytimg.com/vi/${id.videoId}/sddefault.jpg`,
             published_at: snippet.publishedAt,
-            duration: contentDetails.duration,
         }
         await youtubeSchema.updateOne(
             {
