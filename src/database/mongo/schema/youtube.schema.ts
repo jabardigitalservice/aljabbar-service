@@ -24,10 +24,6 @@ const schema = new Schema(
             required: true,
             index: true,
         },
-        duration: {
-            type: String,
-            required: true,
-        },
     },
     {
         versionKey: false,
