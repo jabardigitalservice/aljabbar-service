@@ -44,6 +44,11 @@ const config: Config = {
     coreData: {
         url: env.CORE_DATA_URL,
     },
+    youtube: {
+        api_url: env.YOUTUBE_API_URL,
+        channel_id: env.YOUTUBE_CHANNEL_ID,
+        api_key: env.YOUTUBE_API_KEY,
+    },
 }
 
 export default config
