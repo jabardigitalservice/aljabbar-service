@@ -1,8 +1,8 @@
 import winston from 'winston'
 import { Config } from '../../config/config.interface'
-import CoreData from '../../external/coreData'
 import Http from '../../transport/http/http'
 import Handler from './delivery/http/handler'
+import Repository from './repository/mongo/repository'
 import Usecase from './usecase/usecase'
 
 class Core {
@@ -11,8 +11,8 @@ class Core {
         private logger: winston.Logger,
         private config: Config
     ) {
-        const coreData = new CoreData(config, logger)
-        const usecase = new Usecase(coreData, logger)
+        const repository = new Repository(logger)
+        const usecase = new Usecase(repository, logger)
 
         this.loadHttp(usecase)
     }
