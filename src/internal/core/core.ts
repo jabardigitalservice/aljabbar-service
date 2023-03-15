@@ -21,10 +21,7 @@ class Core {
         const handler = new Handler(usecase, this.logger)
         this.http.app.get('/v1/banners', handler.Banner())
         this.http.app.get('/v1/activities', handler.Activity())
-        this.http.app.get(
-            '/v1/activities/:id/:idPayload',
-            handler.ActivityByID()
-        )
+        this.http.app.get('/v1/activities/:id', handler.ActivityByID())
     }
 }
 
