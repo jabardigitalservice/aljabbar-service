@@ -1,4 +1,5 @@
 import winston from 'winston'
+import { Meta, PropPaginate } from '../../../helpers/paginate'
 import Repository from '../repository/mongo/repository'
 
 class Usecase {
@@ -7,10 +8,14 @@ class Usecase {
         private logger: winston.Logger
     ) {}
 
-    public async FindAll() {
-        const item = await this.repository.FindAll()
+    public async FindAll(propPaginate: PropPaginate) {
+        const data = await this.repository.FindAll(propPaginate)
+        const count = await this.repository.Count()
 
-        return item
+        return {
+            data,
+            meta: Meta(propPaginate, count),
+        }
     }
 }
 
