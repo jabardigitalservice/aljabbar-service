@@ -27,7 +27,7 @@ class Usecase {
     }
 
     public async ActivityByID(id: string, idPayload: string) {
-        const res = await this.repository.ActivityById(id)
+        let res = await this.repository.ActivityById(id)
 
         if (!res) {
             throw new error(
@@ -36,7 +36,16 @@ class Usecase {
             )
         }
 
-        return res.payloads.find((item) => item.id === idPayload)
+        res = res.payloads.find((item) => item.id === idPayload)
+
+        if (!res) {
+            throw new error(
+                statusCode.NOT_FOUND,
+                statusCode[statusCode.NOT_FOUND]
+            )
+        }
+
+        return res
     }
 }
 
