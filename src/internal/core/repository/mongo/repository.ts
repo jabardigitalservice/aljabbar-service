@@ -13,12 +13,12 @@ class Repository {
         return this.banner.find()
     }
 
-    public FindAll({ limit, page }: PropPaginate) {
-        return this.activity.find().limit(limit).skip(page)
+    public FindAll({ limit, offset }: PropPaginate) {
+        return this.activity.find({}).skip(offset).limit(limit)
     }
 
     public Count() {
-        return this.activity.count()
+        return this.activity.find({}).count()
     }
 
     public ActivityById(id: string) {
