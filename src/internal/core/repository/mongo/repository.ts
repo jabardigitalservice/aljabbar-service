@@ -1,7 +1,6 @@
 import winston from 'winston'
 import activitySchema from '../../../../database/mongo/schema/activity.schema'
 import bannerSchema from '../../../../database/mongo/schema/banner.schema'
-import { GetRangeDaysOfMonth } from '../../../../helpers/date'
 import { PropPaginate } from '../../../../helpers/paginate'
 
 class Repository {
@@ -22,7 +21,9 @@ class Repository {
     }
 
     public ActivityById(id: string) {
-        return this.activity.findById(id)
+        return this.activity.findOne({
+            'payloads.id': id,
+        })
     }
 }
 

@@ -33,10 +33,7 @@ class Handler {
     public ActivityByID() {
         return async (req: any, res: Response, next: NextFunction) => {
             try {
-                const result = await this.usecase.ActivityByID(
-                    req.params.id,
-                    req.params.idPayload
-                )
+                const result = await this.usecase.ActivityByID(req.params.id)
                 return res.status(statusCode.OK).json({
                     data: result,
                 })
