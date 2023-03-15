@@ -1,7 +1,7 @@
 import winston from 'winston'
+import { Meta, PropPaginate } from '../../../helpers/paginate'
 import error from '../../../pkg/error'
 import statusCode from '../../../pkg/statusCode'
-import { Activity } from '../entity/interface'
 import Repository from '../repository/mongo/repository'
 
 class Usecase {
@@ -16,13 +16,17 @@ class Usecase {
         return res
     }
 
-    public async Activity({ start_date, end_date }: Activity) {
-        const res = await this.repository.Activity(start_date, end_date)
+    public async Activity(prop: PropPaginate) {
+        const res = await this.repository.FindAll(prop)
+        const count = await this.repository.Count()
 
-        return res
+        return {
+            data: res,
+            meta: Meta(prop, count),
+        }
     }
 
-    public async ActivityByID(id: string) {
+    public async ActivityByID(id: string, idPayload: string) {
         const res = await this.repository.ActivityById(id)
 
         if (!res) {
@@ -32,7 +36,7 @@ class Usecase {
             )
         }
 
-        return res
+        return res.payloads.find((item) => item.id === idPayload)
     }
 }
 

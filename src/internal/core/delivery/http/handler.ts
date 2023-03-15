@@ -2,8 +2,7 @@ import { NextFunction, Response } from 'express'
 import winston from 'winston'
 import Usecase from '../../usecase/usecase'
 import statusCode from '../../../../pkg/statusCode'
-import { ValidateFormRequest } from '../../../../helpers/validate'
-import { Activity } from '../../entity/schema'
+import { Paginate } from '../../../../helpers/paginate'
 
 class Handler {
     constructor(private usecase: Usecase, private logger: winston.Logger) {}
@@ -22,11 +21,10 @@ class Handler {
     public Activity() {
         return async (req: any, res: Response, next: NextFunction) => {
             try {
-                const value = ValidateFormRequest(Activity, req.query)
-                const result = await this.usecase.Activity(value)
-                return res.status(statusCode.OK).json({
-                    data: result,
-                })
+                const paginate = Paginate(req.query)
+
+                const result = await this.usecase.Activity(paginate)
+                return res.status(statusCode.OK).json(result)
             } catch (error) {
                 return next(error)
             }
@@ -35,7 +33,10 @@ class Handler {
     public ActivityByID() {
         return async (req: any, res: Response, next: NextFunction) => {
             try {
-                const result = await this.usecase.ActivityByID(req.params.id)
+                const result = await this.usecase.ActivityByID(
+                    req.params.id,
+                    req.params.idPayload
+                )
                 return res.status(statusCode.OK).json({
                     data: result,
                 })

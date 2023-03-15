@@ -7,3 +7,10 @@ export const ConvertTimestampToISODate = (date: string) => {
 export const ConvertISOToDate = (date: string) => {
     return DateTime.fromISO(date).toISODate()
 }
+
+export const GetRangeDaysOfMonth = () => {
+    const today = DateTime.now().toISO()
+    const firstDayOfMonth = DateTime.fromISO(today).startOf('month').toISO()
+    const lastDayOfMonth = DateTime.fromISO(today).endOf('month').toISO()
+    return { firstDayOfMonth, lastDayOfMonth }
+}
