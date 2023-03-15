@@ -1,6 +1,8 @@
 import winston from 'winston'
 import activitySchema from '../../../../database/mongo/schema/activity.schema'
 import bannerSchema from '../../../../database/mongo/schema/banner.schema'
+import { GetRangeDaysOfMonth } from '../../../../helpers/date'
+import { PropPaginate } from '../../../../helpers/paginate'
 
 class Repository {
     private banner = bannerSchema
@@ -11,19 +13,16 @@ class Repository {
         return this.banner.find()
     }
 
-    public Activity(start_date: string, end_date: string) {
-        return this.activity.find({
-            tanggal_kegiatan: {
-                $gte: start_date,
-                $lt: end_date,
-            },
-        })
+    public FindAll({ limit, offset }: PropPaginate) {
+        return this.activity.find({}).skip(offset).limit(limit)
+    }
+
+    public Count() {
+        return this.activity.find({}).count()
     }
 
     public ActivityById(id: string) {
-        return this.activity.find({
-            id,
-        })
+        return this.activity.findById(id)
     }
 }
 

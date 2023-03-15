@@ -1,10 +1,12 @@
 import mongoose, { Schema } from 'mongoose'
 
 const schema = new Schema(
-    {},
+    {
+        date: Date,
+        payloads: Array,
+    },
     {
         versionKey: false,
-        strict: false,
     }
 )
 

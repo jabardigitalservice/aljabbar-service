@@ -4,6 +4,7 @@ import Mongo from '../database/mongo/mongo'
 import activitySchema from '../database/mongo/schema/activity.schema'
 import bannerSchema from '../database/mongo/schema/banner.schema'
 import CoreData from '../external/coreData'
+import { GetRangeDaysOfMonth } from '../helpers/date'
 import Logger from '../pkg/logger'
 
 const bannerStore = async (coreData: CoreData) => {
@@ -23,22 +24,37 @@ const bannerStore = async (coreData: CoreData) => {
 }
 
 const activityStore = async (coreData: CoreData) => {
-    const today = DateTime.now().toISO()
-    const firstDayOfMonth = DateTime.fromISO(today).startOf('month').toISO()
-    const lastDayOfMonth = DateTime.fromISO(today).endOf('month').toISO()
+    const { firstDayOfMonth, lastDayOfMonth } = GetRangeDaysOfMonth()
 
     const activities = await coreData.Activity(firstDayOfMonth, lastDayOfMonth)
 
-    for (const activity of activities) {
-        await activitySchema.updateOne(
-            {
-                id: activity.id,
-            },
-            activity,
-            {
-                upsert: true,
-            }
-        )
+    const payloads: Record<string, Object[]> = {}
+    for (let index = 0; index < activities.length; index++) {
+        const activity = activities[index]
+        if (payloads[activity.tanggal_kegiatan] !== activity.tanggal_kegiatan) {
+            payloads[activity.tanggal_kegiatan] = new Array()
+        }
+
+        payloads[activity.tanggal_kegiatan].push(activity)
+    }
+
+    for (const payload in payloads) {
+        if (Object.prototype.hasOwnProperty.call(payloads, payload)) {
+            const activity = payloads[payload]
+
+            await activitySchema.updateOne(
+                {
+                    date: payload,
+                },
+                {
+                    date: payload,
+                    payloads: activity,
+                },
+                {
+                    upsert: true,
+                }
+            )
+        }
     }
 }
 
