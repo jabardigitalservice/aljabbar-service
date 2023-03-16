@@ -1,10 +1,9 @@
-import { DateTime } from 'luxon'
 import config from '../config/config'
 import Mongo from '../database/mongo/mongo'
 import activitySchema from '../database/mongo/schema/activity.schema'
 import bannerSchema from '../database/mongo/schema/banner.schema'
 import CoreData from '../external/coreData'
-import { GetRangeDaysOfMonth } from '../helpers/date'
+import { GetRangeDaysOfYear } from '../helpers/date'
 import Logger from '../pkg/logger'
 
 const bannerStore = async (coreData: CoreData) => {
@@ -24,9 +23,9 @@ const bannerStore = async (coreData: CoreData) => {
 }
 
 const activityStore = async (coreData: CoreData) => {
-    const { firstDayOfMonth, lastDayOfMonth } = GetRangeDaysOfMonth()
+    const { firstDayOfMonth, lastDayOfYear } = GetRangeDaysOfYear()
 
-    const activities = await coreData.Activity(firstDayOfMonth, lastDayOfMonth)
+    const activities = await coreData.Activity(firstDayOfMonth, lastDayOfYear)
 
     const payloads: Record<string, Object[]> = {}
     for (let index = 0; index < activities.length; index++) {
@@ -44,10 +43,10 @@ const activityStore = async (coreData: CoreData) => {
 
             await activitySchema.updateOne(
                 {
-                    date: payload,
+                    date: new Date(payload),
                 },
                 {
-                    date: payload,
+                    date: new Date(payload),
                     payloads: activity,
                 },
                 {

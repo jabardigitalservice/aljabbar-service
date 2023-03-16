@@ -1,7 +1,9 @@
+import { DateTime } from 'luxon'
 import winston from 'winston'
 import { Meta, PropPaginate } from '../../../helpers/paginate'
 import error from '../../../pkg/error'
 import statusCode from '../../../pkg/statusCode'
+import { FindAll } from '../entity/interface'
 import Repository from '../repository/mongo/repository'
 
 class Usecase {
@@ -16,9 +18,31 @@ class Usecase {
         return res
     }
 
-    public async Activity(prop: PropPaginate) {
-        const res = await this.repository.FindAll(prop)
-        const count = await this.repository.Count()
+    private getFilters(query: FindAll) {
+        let filters = {}
+
+        if (query.isToday) {
+            const today = DateTime.now().toISODate()
+            filters = Object.assign(filters, {
+                date: new Date(today),
+            })
+        } else {
+            filters = Object.assign(filters, {
+                date: {
+                    $gte: new Date(
+                        DateTime.now().plus({ days: 1 }).toISODate()
+                    ),
+                },
+            })
+        }
+
+        return filters
+    }
+
+    public async Activity(prop: PropPaginate, query: FindAll) {
+        const filters = this.getFilters(query)
+        const res = await this.repository.FindAll(prop, filters)
+        const count = await this.repository.Count(filters)
 
         return {
             data: res,

@@ -36,7 +36,6 @@ class PrayerTimes {
                 const time = times[key].replace(replace, '').replace('T', ' ')
                 times[key] = DateTime.fromFormat(time, 'yyyy-MM-dd HH:mm:ss')
                     .toUTC()
-                    .plus({ hours: 7 })
                     .toBSON()
             }
         }

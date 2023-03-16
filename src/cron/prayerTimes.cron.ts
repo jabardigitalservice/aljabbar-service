@@ -16,12 +16,14 @@ const prayerTimes = async () => {
 
     for (const item of calendar) {
         const date = ConvertTimestampToISODate(item.date.timestamp)
+        const times = prayerTimes.FormatTimes(item.timings, '+07:00 (WIB)')
+
         await prayerTimesSchema.updateOne(
             {
                 date,
             },
             {
-                times: prayerTimes.FormatTimes(item.timings, '+07:00 (WIB)'),
+                times,
                 date,
             },
             {
