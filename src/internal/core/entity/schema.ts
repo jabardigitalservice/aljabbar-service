@@ -1,6 +1,5 @@
 import Joi from 'joi'
 
 export const FindAll = Joi.object({
-    start_date: Joi.string().isoDate().optional(),
-    end_date: Joi.string().isoDate().optional(),
+    isToday: Joi.boolean().optional(),
 })

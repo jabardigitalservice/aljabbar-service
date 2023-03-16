@@ -21,17 +21,17 @@ class Usecase {
     private getFilters(query: FindAll) {
         let filters = {}
 
-        if (query.start_date && query.end_date) {
+        if (query.isToday) {
+            const today = DateTime.now().toISODate()
             filters = Object.assign(filters, {
-                date: {
-                    $gte: query.start_date,
-                    $lte: query.end_date,
-                },
+                date: new Date(today),
             })
         } else {
             filters = Object.assign(filters, {
                 date: {
-                    $gte: DateTime.now().plus({ days: 1 }).toISO(),
+                    $gte: new Date(
+                        DateTime.now().plus({ days: 1 }).toISODate()
+                    ),
                 },
             })
         }
