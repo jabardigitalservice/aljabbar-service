@@ -14,3 +14,11 @@ export const GetRangeDaysOfMonth = () => {
     const lastDayOfMonth = DateTime.fromISO(today).endOf('month').toISO()
     return { firstDayOfMonth, lastDayOfMonth }
 }
+
+export const GetRangeDaysOfYear = () => {
+    const today = DateTime.now().toISO()
+    const firstDayOfMonth = DateTime.fromISO(today).startOf('month').toISO()
+    const lastDayOfYear = DateTime.fromISO(today).endOf('year').toISO()
+
+    return { firstDayOfMonth, lastDayOfYear }
+}
