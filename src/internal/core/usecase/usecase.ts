@@ -28,9 +28,7 @@ class Usecase {
                     $lte: query.end_date,
                 },
             })
-        }
-
-        if (query.isNextActivities === true) {
+        } else {
             filters = Object.assign(filters, {
                 date: {
                     $gte: DateTime.now().plus({ days: 1 }).toISO(),
