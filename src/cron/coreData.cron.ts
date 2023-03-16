@@ -44,10 +44,10 @@ const activityStore = async (coreData: CoreData) => {
 
             await activitySchema.updateOne(
                 {
-                    date: payload,
+                    date: new Date(payload),
                 },
                 {
-                    date: payload,
+                    date: new Date(payload),
                     payloads: activity,
                 },
                 {
