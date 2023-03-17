@@ -1,3 +1,3 @@
 export interface FindAll {
-    isToday: boolean
+    is_today: boolean
 }

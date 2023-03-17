@@ -21,7 +21,7 @@ class Usecase {
     private getFilters(query: FindAll) {
         let filters = {}
 
-        if (query.isToday) {
+        if (query.is_today) {
             const today = DateTime.now().toISODate()
             filters = Object.assign(filters, {
                 date: new Date(today),
