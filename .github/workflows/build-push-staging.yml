@@ -51,17 +51,17 @@ jobs:
     - name: GitOps ArgoCD Update Image Tag Aljabbar Service Cron CoreData Staging
       uses: mikefarah/yq@master
       with:
-        cmd: yq -i '.spec.jobtemplate.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/aljabbar/development/01-cronjob-coredata.yaml'
+        cmd: yq -i '.spec.jobTemplate.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/aljabbar/development/01-cronjob-coredata.yaml'
 
     - name: GitOps ArgoCD Update Image Tag Aljabbar Service Cron Youtube Staging
       uses: mikefarah/yq@master
       with:
-        cmd: yq -i '.spec.job-template.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/aljabbar/development/02-cronjob-youtube.yaml'
+        cmd: yq -i '.spec.jobTemplate.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/aljabbar/development/02-cronjob-youtube.yaml'
 
     - name: GitOps ArgoCD Update Image Tag Aljabbar Service Cron Prayer Times Staging
       uses: mikefarah/yq@master
       with:
-        cmd: yq -i '.spec.job-Template.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/aljabbar/development/03-cronjob-prayertime.yaml'
+        cmd: yq -i '.spec.jobTemplate.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/aljabbar/development/03-cronjob-prayertime.yaml'
 
     - name: GitOps ArgoCD Create Branch, Commit, Push
       run: |
@@ -69,6 +69,6 @@ jobs:
         cd jds-terraform-gke/k8s/aljabbar/development
         git config user.email "github-action@github.com"
         git config user.name "Github Action"
-        git add deployment.yaml
+        git add deployment.yaml 01-cronjob-coredata.yaml 02-cronjob-youtube.yaml 03-cronjob-prayertime.yaml
         git commit -m "AL JABBAR Sync Staging"
         git push origin master
