@@ -1,4 +1,5 @@
 import config from './config/config'
+import 'newrelic'
 import Mongo from './database/mongo/mongo'
 import Core from './internal/core/core'
 import News from './internal/news/news'

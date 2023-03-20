@@ -6,7 +6,6 @@ import bodyParser from 'body-parser'
 import helmet from 'helmet'
 import compression from 'compression'
 import { Config } from '../../config/config.interface'
-import jwt from 'jsonwebtoken'
 import Error from '../../pkg/error'
 
 class Http {
