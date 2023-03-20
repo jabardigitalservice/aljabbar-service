@@ -30,7 +30,7 @@ const activityStore = async (coreData: CoreData) => {
     const payloads: Record<string, Object[]> = {}
     for (let index = 0; index < activities.length; index++) {
         const activity = activities[index]
-        if (payloads[activity.tanggal_kegiatan] !== activity.tanggal_kegiatan) {
+        if (!payloads[activity.tanggal_kegiatan]) {
             payloads[activity.tanggal_kegiatan] = new Array()
         }
 
