@@ -27,6 +27,7 @@
         "@types/i18n": "^0.13.6",
         "@types/jsonwebtoken": "^9.0.1",
         "@types/luxon": "^3.2.0",
+        "@types/newrelic": "^9.4.0",
         "@types/node": "^18.11.18",
         "nodemon": "^2.0.20",
         "prettier": "2.8.2",
