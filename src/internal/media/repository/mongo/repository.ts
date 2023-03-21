@@ -7,7 +7,11 @@ class Repository {
     constructor(private logger: winston.Logger) {}
 
     public async FindAll({ limit, offset }: PropPaginate) {
-        return this.youtube.find().skip(offset).limit(limit)
+        return this.youtube
+            .find()
+            .sort({ published_at: -1 })
+            .skip(offset)
+            .limit(limit)
     }
 
     public async Count() {
