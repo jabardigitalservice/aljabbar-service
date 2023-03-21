@@ -21,9 +21,9 @@ class PrayerTime {
         const handler = new Handler(usecase, this.logger)
         const Router = this.http.Router()
 
-        Router.get('/api/v1/prayer-times/:date', handler.FindByDate())
+        Router.get('/v1/prayer-times/:date', handler.FindByDate())
 
-        this.http.SetRoute('/', Router)
+        this.http.SetRoute('/api', Router)
     }
 }
 

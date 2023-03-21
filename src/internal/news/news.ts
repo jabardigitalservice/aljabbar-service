@@ -21,9 +21,9 @@ class News {
         const handler = new Handler(usecase, this.logger)
         const Router = this.http.Router()
 
-        Router.get('/api/v1/news', handler.FindAll())
+        Router.get('/v1/news', handler.FindAll())
 
-        this.http.SetRoute('/', Router)
+        this.http.SetRoute('/api', Router)
     }
 }
 
