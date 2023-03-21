@@ -60,7 +60,7 @@ class Usecase {
             )
         }
 
-        return res.payloads[0]
+        return res.payloads.find((item) => item.id === id)
     }
 }
 
