@@ -19,7 +19,7 @@ class Media {
 
     private loadHttp(usecase: Usecase) {
         const handler = new Handler(usecase, this.logger)
-        const { Router } = this.http
+        const Router = this.http.Router()
 
         Router.get('/api/v1/media/', handler.FindAll())
 

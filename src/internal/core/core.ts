@@ -19,7 +19,7 @@ class Core {
 
     private loadHttp(usecase: Usecase) {
         const handler = new Handler(usecase, this.logger)
-        const { Router } = this.http
+        const Router = this.http.Router()
 
         Router.get('/v1/banners', handler.Banner())
         Router.get('/v1/activities', handler.Activity())

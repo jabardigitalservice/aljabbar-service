@@ -1,10 +1,4 @@
-import express, {
-    Express,
-    NextFunction,
-    Request,
-    Response,
-    Router,
-} from 'express'
+import express, { Express, NextFunction, Request, Response } from 'express'
 import winston from 'winston'
 import statusCode from '../../pkg/statusCode'
 import cors from 'cors'
@@ -16,11 +10,9 @@ import Error from '../../pkg/error'
 
 class Http {
     private app: Express
-    public Router: Router
 
     constructor(private logger: winston.Logger, private config: Config) {
         this.app = express()
-        this.Router = Router()
         this.plugins()
         this.pageHome()
     }
@@ -78,7 +70,11 @@ class Http {
         })
     }
 
-    public SetRoute(prefix: string, ...router: Router[]) {
+    public Router() {
+        return express.Router()
+    }
+
+    public SetRoute(prefix: string, ...router: express.Router[]) {
         this.app.use(prefix, router)
     }
 
