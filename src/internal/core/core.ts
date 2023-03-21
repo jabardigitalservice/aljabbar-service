@@ -19,9 +19,9 @@ class Core {
 
     private loadHttp(usecase: Usecase) {
         const handler = new Handler(usecase, this.logger)
-        this.http.app.get('api/v1/banners', handler.Banner())
-        this.http.app.get('api/v1/activities', handler.Activity())
-        this.http.app.get('api/v1/activities/:id', handler.ActivityByID())
+        this.http.app.get('/api/v1/banners', handler.Banner())
+        this.http.app.get('/api/v1/activities', handler.Activity())
+        this.http.app.get('/api/v1/activities/:id', handler.ActivityByID())
     }
 }
 
