@@ -69,6 +69,6 @@ jobs:
         cd jds-terraform-gke/k8s/aljabbar/development
         git config user.email "github-action@github.com"
         git config user.name "Github Action"
-        git add deployment.yaml 01-cronjob-coredata.yaml 02-cronjob-youtube.yaml 03-cronjob-prayertime.yaml
+        git add .
         git commit -m "AL JABBAR Sync Staging"
         git push origin master
