@@ -25,7 +25,7 @@ class Core {
         Router.get('/v1/activities', handler.Activity())
         Router.get('/v1/activities/:id', handler.ActivityByID())
 
-        this.http.SetRoute('/api', Router)
+        this.http.SetRouter('/api', Router)
     }
 }
 

@@ -23,7 +23,7 @@ class News {
 
         Router.get('/v1/news', handler.FindAll())
 
-        this.http.SetRoute('/api', Router)
+        this.http.SetRouter('/api', Router)
     }
 }
 

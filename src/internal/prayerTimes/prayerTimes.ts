@@ -23,7 +23,7 @@ class PrayerTime {
 
         Router.get('/v1/prayer-times/:date', handler.FindByDate())
 
-        this.http.SetRoute('/api', Router)
+        this.http.SetRouter('/api', Router)
     }
 }
 

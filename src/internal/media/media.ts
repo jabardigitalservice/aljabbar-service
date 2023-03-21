@@ -23,7 +23,7 @@ class Media {
 
         Router.get('/v1/media/', handler.FindAll())
 
-        this.http.SetRoute('/api', Router)
+        this.http.SetRouter('/api', Router)
     }
 }
 

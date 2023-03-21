@@ -74,7 +74,7 @@ class Http {
         return express.Router()
     }
 
-    public SetRoute(prefix: string, ...router: express.Router[]) {
+    public SetRouter(prefix: string, ...router: express.Router[]) {
         this.app.use(prefix, router)
     }
 
