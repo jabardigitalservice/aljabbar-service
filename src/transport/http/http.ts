@@ -9,7 +9,7 @@ import { Config } from '../../config/config.interface'
 import Error from '../../pkg/error'
 
 class Http {
-    public app: Express
+    private app: Express
 
     constructor(private logger: winston.Logger, private config: Config) {
         this.app = express()
@@ -63,11 +63,19 @@ class Http {
     }
 
     private pageHome = () => {
-        this.app.get('/', (_: Request, res: Response) => {
+        this.app.get('/api', (_: Request, res: Response) => {
             res.status(statusCode.OK).json({
                 app_name: this.config.app.name,
             })
         })
+    }
+
+    public Router() {
+        return express.Router()
+    }
+
+    public SetRoute(prefix: string, ...router: express.Router[]) {
+        this.app.use(prefix, router)
     }
 
     public Run(port: number) {
