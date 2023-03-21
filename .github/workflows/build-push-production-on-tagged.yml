@@ -1,0 +1,77 @@
+name: build-push-production-on-tagged
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    # Configure Docker with Credentials
+    - name: Configure Docker
+      run: |
+        docker login ${{ secrets.REGISTRY_URL }} -u ${{ secrets.REGISTRY_USERNAME_ALJABBAR }} -p "${{ secrets.REGISTRY_PASSWORD_ALJABBAR }}"
+     
+    # Build the Docker image
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
+    - name: Build and push
+      id: docker_build
+      uses: docker/build-push-action@v2
+      with:
+        file: docker/Dockerfile
+        context: .
+        push: true
+        tags: ${{ secrets.ALJABBAR_SERVICE_PROD_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}
+
+    # GitOps
+    - name: GitOps ArgoCD Setup
+      run: |
+        echo "${{ secrets.GITLAB_ARGOCD_KEY }}" > /tmp/gitlab-deploy-ssh-key
+        chmod 600 /tmp/gitlab-deploy-ssh-key
+        export GIT_SSH_COMMAND="ssh -i /tmp/gitlab-deploy-ssh-key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+        git clone ${{ secrets.GITLAB_ARGOCD_REPOSITORY }}
+    - name: GitOps ArgoCD Update Image Tag Aljabbar Service
+      uses: mikefarah/yq@master
+      with:
+        cmd: yq -i '.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_PROD_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/aljabbar/production/aljabbar-api/deployment.yaml'
+
+    - name: GitOps ArgoCD Update Image Tag Aljabbar Service Cron CoreData
+      uses: mikefarah/yq@master
+      with:
+        cmd: yq -i '.spec.jobTemplate.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_PROD_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/aljabbar/production/aljabbar-api/01-cronjob-coredata.yaml'
+
+    - name: GitOps ArgoCD Update Image Tag Aljabbar Service Cron Youtube
+      uses: mikefarah/yq@master
+      with:
+        cmd: yq -i '.spec.jobTemplate.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_PROD_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/aljabbar/production/aljabbar-api/02-cronjob-youtube.yaml'
+
+    - name: GitOps ArgoCD Update Image Tag Aljabbar Service Cron Prayer Times
+      uses: mikefarah/yq@master
+      with:
+        cmd: yq -i '.spec.jobTemplate.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_PROD_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/aljabbar/production/aljabbar-api/03-cronjob-prayertime.yaml'
+
+    - name: GitOps ArgoCD Create Branch, Commit, Push
+      run: |
+        export GIT_SSH_COMMAND="ssh -i /tmp/gitlab-deploy-ssh-key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+        cd jds-terraform-gke/k8s/aljabbar/production/aljabbar-api
+        git config user.email "github-action@github.com"
+        git config user.name "Github Action"
+        git checkout -b aljabbar-api-release-${{ steps.get_version.outputs.VERSION }}-production
+        git add .
+        git commit -m "Al Jabbar Api Release ${{ steps.get_version.outputs.VERSION }} to production"
+        git push origin aljabbar-api-release-${{ steps.get_version.outputs.VERSION }}-production -o merge_request.description="# Overview \n\n - Al Jabbar Api Release ${{ steps.get_version.outputs.VERSION }} to production \n\n ## Evidence \n\n - title: Al Jabbar Api Release ${{ steps.get_version.outputs.VERSION }} to production \n - project: Digitalisasi Al Jabbar \n - participants: " -o merge_request.create
