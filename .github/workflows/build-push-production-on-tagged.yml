@@ -36,7 +36,7 @@ jobs:
         file: docker/Dockerfile
         context: .
         push: true
-        tags: ${{ secrets.ALJABBAR_SERVICE_PROD_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}
+        tags: ${{ secrets.ALJABBAR_SERVICE_PROD_IMAGENAME }}:${{ steps.get_version.outputs.VERSION }}
 
     # GitOps
     - name: GitOps ArgoCD Setup
@@ -48,22 +48,22 @@ jobs:
     - name: GitOps ArgoCD Update Image Tag Aljabbar Service
       uses: mikefarah/yq@master
       with:
-        cmd: yq -i '.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_PROD_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/aljabbar/production/aljabbar-api/deployment.yaml'
+        cmd: yq -i '.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_PROD_IMAGENAME }}:${{ steps.get_version.outputs.VERSION }}"' 'jds-terraform-gke/k8s/aljabbar/production/aljabbar-api/deployment.yaml'
 
     - name: GitOps ArgoCD Update Image Tag Aljabbar Service Cron CoreData
       uses: mikefarah/yq@master
       with:
-        cmd: yq -i '.spec.jobTemplate.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_PROD_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/aljabbar/production/aljabbar-api/01-cronjob-coredata.yaml'
+        cmd: yq -i '.spec.jobTemplate.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_PROD_IMAGENAME }}:${{ steps.get_version.outputs.VERSION }}"' 'jds-terraform-gke/k8s/aljabbar/production/aljabbar-api/01-cronjob-coredata.yaml'
 
     - name: GitOps ArgoCD Update Image Tag Aljabbar Service Cron Youtube
       uses: mikefarah/yq@master
       with:
-        cmd: yq -i '.spec.jobTemplate.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_PROD_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/aljabbar/production/aljabbar-api/02-cronjob-youtube.yaml'
+        cmd: yq -i '.spec.jobTemplate.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_PROD_IMAGENAME }}:${{ steps.get_version.outputs.VERSION }}"' 'jds-terraform-gke/k8s/aljabbar/production/aljabbar-api/02-cronjob-youtube.yaml'
 
     - name: GitOps ArgoCD Update Image Tag Aljabbar Service Cron Prayer Times
       uses: mikefarah/yq@master
       with:
-        cmd: yq -i '.spec.jobTemplate.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_PROD_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/aljabbar/production/aljabbar-api/03-cronjob-prayertime.yaml'
+        cmd: yq -i '.spec.jobTemplate.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_PROD_IMAGENAME }}:${{ steps.get_version.outputs.VERSION }}"' 'jds-terraform-gke/k8s/aljabbar/production/aljabbar-api/03-cronjob-prayertime.yaml'
 
     - name: GitOps ArgoCD Create Branch, Commit, Push
       run: |
