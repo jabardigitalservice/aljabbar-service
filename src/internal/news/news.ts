@@ -19,7 +19,11 @@ class News {
 
     private loadHttp(usecase: Usecase) {
         const handler = new Handler(usecase, this.logger)
-        this.http.app.get('/api/v1/news', handler.FindAll())
+        const { Router } = this.http
+
+        Router.get('/api/v1/news', handler.FindAll())
+
+        this.http.SetRoute('/', Router)
     }
 }
 

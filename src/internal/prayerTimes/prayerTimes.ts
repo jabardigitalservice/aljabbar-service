@@ -19,7 +19,11 @@ class PrayerTime {
 
     private loadHttp(usecase: Usecase) {
         const handler = new Handler(usecase, this.logger)
-        this.http.app.get('/api/v1/prayer-times/:date', handler.FindByDate())
+        const { Router } = this.http
+
+        Router.get('/api/v1/prayer-times/:date', handler.FindByDate())
+
+        this.http.SetRoute('/', Router)
     }
 }
 
