@@ -21,9 +21,7 @@ const main = async () => {
     new Core(http, logger, config)
     new Media(http, logger, config)
 
-    if (config.app.env !== 'test') {
-        http.Run(config.app.port.http)
-    }
+    http.Run(config.app.port.http)
 
     return {
         http,
