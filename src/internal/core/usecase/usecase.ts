@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon'
 import winston from 'winston'
 import { Meta, PropPaginate } from '../../../helpers/paginate'
 import error from '../../../pkg/error'
@@ -18,31 +17,9 @@ class Usecase {
         return res
     }
 
-    private getFilters(query: FindAll) {
-        let filters = {}
-
-        if (query.is_today) {
-            const today = DateTime.now().toISODate()
-            filters = Object.assign(filters, {
-                date: new Date(today),
-            })
-        } else {
-            filters = Object.assign(filters, {
-                date: {
-                    $gte: new Date(
-                        DateTime.now().plus({ days: 1 }).toISODate()
-                    ),
-                },
-            })
-        }
-
-        return filters
-    }
-
     public async Activity(prop: PropPaginate, query: FindAll) {
-        const filters = this.getFilters(query)
-        const res = await this.repository.FindAll(prop, filters)
-        const count = await this.repository.Count(filters)
+        const res = await this.repository.FindAll(prop, query)
+        const count = await this.repository.Count(query)
 
         return {
             data: res,
