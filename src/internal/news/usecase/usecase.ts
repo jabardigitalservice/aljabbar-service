@@ -1,14 +1,21 @@
 import winston from 'winston'
-import Jabarprov from '../../../external/jabarprov'
-import { PropPaginate } from '../../../helpers/paginate'
+import { Meta, PropPaginate } from '../../../helpers/paginate'
+import Repository from '../repository/mongo/repository'
 
 class Usecase {
-    constructor(private jabarprov: Jabarprov, private logger: winston.Logger) {}
+    constructor(
+        private repository: Repository,
+        private logger: winston.Logger
+    ) {}
 
-    public async FindAll({ limit, page }: PropPaginate) {
-        const res = await this.jabarprov.Search(page, limit)
+    public async FindAll(prop: PropPaginate) {
+        const res = await this.repository.FindAll(prop)
+        const count = await this.repository.Count()
 
-        return res
+        return {
+            data: res,
+            meta: Meta(prop, count),
+        }
     }
 }
 
