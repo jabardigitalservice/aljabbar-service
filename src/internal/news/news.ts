@@ -1,8 +1,8 @@
 import winston from 'winston'
 import { Config } from '../../config/config.interface'
-import Jabarprov from '../../external/jabarprov'
 import Http from '../../transport/http/http'
 import Handler from './delivery/http/handler'
+import Repository from './repository/mongo/repository'
 import Usecase from './usecase/usecase'
 
 class News {
@@ -11,7 +11,7 @@ class News {
         private logger: winston.Logger,
         private config: Config
     ) {
-        const repository = new Jabarprov(config, logger)
+        const repository = new Repository(logger)
         const usecase = new Usecase(repository, logger)
 
         this.loadHttp(usecase)
