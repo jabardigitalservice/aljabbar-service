@@ -64,6 +64,11 @@ jobs:
       uses: mikefarah/yq@master
       with:
         cmd: yq -i '.spec.jobTemplate.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_PROD_IMAGENAME }}:${{ steps.get_version.outputs.VERSION }}"' 'jds-terraform-gke/k8s/aljabbar/production/aljabbar-api/03-cronjob-prayertime.yaml'
+    
+    - name: GitOps ArgoCD Update Image Tag Aljabbar Service Cron Jabarprov
+      uses: mikefarah/yq@master
+      with:
+        cmd: yq -i '.spec.jobTemplate.spec.template.spec.containers[0].image = "${{ secrets.ALJABBAR_SERVICE_PROD_IMAGENAME }}:${{ steps.get_version.outputs.VERSION }}"' 'jds-terraform-gke/k8s/aljabbar/production/aljabbar-api/04-cronjob-jabarprov.yaml'
 
     - name: GitOps ArgoCD Create Branch, Commit, Push
       run: |
