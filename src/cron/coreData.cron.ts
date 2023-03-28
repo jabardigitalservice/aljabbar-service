@@ -74,8 +74,12 @@ const coreData = async () => {
 
     const coreData = new CoreData(config, logger)
 
-    await bannerStore(coreData)
-    await activityStore(coreData)
+    try {
+        await bannerStore(coreData)
+        await activityStore(coreData)
+    } catch (error) {
+        logger.error(error)
+    }
 
     process.exit()
 }
