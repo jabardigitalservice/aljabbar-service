@@ -57,16 +57,20 @@ const activityStore = async (coreData: CoreData) => {
     }
 }
 
-const coreData = async () => {
+const run = async () => {
     const { logger } = new Logger(config)
     await Mongo.connect(logger, config)
 
     const coreData = new CoreData(config, logger)
 
-    await bannerStore(coreData)
-    await activityStore(coreData)
-
+    try {
+        await bannerStore(coreData)
+        await activityStore(coreData)
+    } catch (error) {
+        logger.error(error)
+    }
+    
     process.exit()
 }
 
-export default coreData()
+export default run()
