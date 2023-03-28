@@ -6,11 +6,7 @@ import { ConvertTimestampToISODate } from '../helpers/date'
 import prayerTimesSchema from '../database/mongo/schema/prayerTimes.schema'
 import Mongo from '../database/mongo/mongo'
 
-const prayerTimes = async () => {
-    const { logger } = new Logger(config)
-    await Mongo.connect(logger, config)
-
-    const prayerTimes = new PrayerTimes(config, logger)
+const prayerTimesStore = async (prayerTimes: PrayerTimes) => {
     const today = DateTime.now()
     const nextMonth = today.plus({ months: 1 })
     const calendars = await prayerTimes.Calender(today.year, today.month)
@@ -38,8 +34,21 @@ const prayerTimes = async () => {
             }
         )
     }
+}
+
+const run = async () => {
+    const { logger } = new Logger(config)
+    await Mongo.connect(logger, config)
+
+    const prayerTimes = new PrayerTimes(config, logger)
+
+    try {
+        await prayerTimesStore(prayerTimes)
+    } catch (error) {
+        logger.error(error)
+    }
 
     process.exit()
 }
 
-export default prayerTimes()
+export default run()

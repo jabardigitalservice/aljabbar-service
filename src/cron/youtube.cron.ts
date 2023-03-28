@@ -4,11 +4,7 @@ import youtubeSchema from '../database/mongo/schema/youtube.schema'
 import Youtube from '../external/youtube'
 import Logger from '../pkg/logger'
 
-const youtube = async () => {
-    const { logger } = new Logger(config)
-    await Mongo.connect(logger, config)
-
-    const youtube = new Youtube(config, logger)
+const youtubeStore = async (youtube: Youtube) => {
     const search = await youtube.Search()
 
     for (const item of search.items) {
@@ -30,8 +26,20 @@ const youtube = async () => {
             }
         )
     }
+}
+
+const run = async () => {
+    const { logger } = new Logger(config)
+    await Mongo.connect(logger, config)
+    try {
+        
+        const youtube = new Youtube(config, logger)
+        await youtubeStore(youtube)
+    } catch (error) {
+        logger.error(error)
+    }
 
     process.exit()
 }
 
-export default youtube()
+export default run()
