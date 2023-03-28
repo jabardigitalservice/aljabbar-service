@@ -28,13 +28,16 @@ const activityStore = async (coreData: CoreData) => {
     const activities = await coreData.Activity(firstDayOfMonth, lastDayOfYear)
 
     const payloads: Record<string, Object[]> = {}
+    const dates = []
     for (let index = 0; index < activities.length; index++) {
         const activity = activities[index]
-        if (!payloads[activity.tanggal_kegiatan]) {
-            payloads[activity.tanggal_kegiatan] = new Array()
+        const activityDate = activity.tanggal_kegiatan
+        if (!payloads[activityDate]) {
+            payloads[activityDate] = new Array()
+            dates.push(activityDate)
         }
 
-        payloads[activity.tanggal_kegiatan].push(activity)
+        payloads[activityDate].push(activity)
     }
 
     for (const payload in payloads) {
@@ -55,22 +58,26 @@ const activityStore = async (coreData: CoreData) => {
             )
         }
     }
+
+    // delete data at out not exist dates and greater dates for the first day of the month
+    await activitySchema.deleteMany({
+        date: {
+            $nin: dates,
+            $gte: firstDayOfMonth,
+        },
+    })
 }
 
-const run = async () => {
+const coreData = async () => {
     const { logger } = new Logger(config)
     await Mongo.connect(logger, config)
 
     const coreData = new CoreData(config, logger)
 
-    try {
-        await bannerStore(coreData)
-        await activityStore(coreData)
-    } catch (error) {
-        logger.error(error)
-    }
-    
+    await bannerStore(coreData)
+    await activityStore(coreData)
+
     process.exit()
 }
 
-export default run()
+export default coreData()
