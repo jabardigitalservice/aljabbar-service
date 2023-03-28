@@ -32,7 +32,6 @@ const run = async () => {
     const { logger } = new Logger(config)
     await Mongo.connect(logger, config)
     try {
-        
         const youtube = new Youtube(config, logger)
         await youtubeStore(youtube)
     } catch (error) {
