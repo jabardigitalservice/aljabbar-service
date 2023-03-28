@@ -12,11 +12,18 @@ const prayerTimes = async () => {
 
     const prayerTimes = new PrayerTimes(config, logger)
     const today = DateTime.now()
-    const calendar = await prayerTimes.Calender(today.year, today.month)
+    const nextMonth = today.plus({ months: 1 })
+    const calendars = await prayerTimes.Calender(today.year, today.month)
+    const calendarNextMonth = await prayerTimes.Calender(
+        nextMonth.year,
+        nextMonth.month
+    )
 
-    for (const item of calendar) {
-        const date = ConvertTimestampToISODate(item.date.timestamp)
-        const times = prayerTimes.FormatTimes(item.timings, '+07:00 (WIB)')
+    calendars.push(...calendarNextMonth)
+
+    for (const calendar of calendars) {
+        const date = ConvertTimestampToISODate(calendar.date.timestamp)
+        const times = prayerTimes.FormatTimes(calendar.timings, '+07:00 (WIB)')
 
         await prayerTimesSchema.updateOne(
             {
