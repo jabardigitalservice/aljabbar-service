@@ -17,17 +17,16 @@ class Repository {
     private getFilters(query: FindAll) {
         let filters = {}
 
-        if (query.is_today) {
-            const today = DateTime.now().toISODate()
+        const { date, is_today } = query
+
+        if (is_today) {
             filters = Object.assign(filters, {
-                date: new Date(today),
+                date: date,
             })
         } else {
             filters = Object.assign(filters, {
                 date: {
-                    $gte: new Date(
-                        DateTime.now().plus({ days: 1 }).toISODate()
-                    ),
+                    $gt: date,
                 },
             })
         }
