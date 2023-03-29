@@ -7,6 +7,7 @@ import helmet from 'helmet'
 import compression from 'compression'
 import { Config } from '../../config/config.interface'
 import Error from '../../pkg/error'
+import { activityLogs } from './middleware/activityLogs'
 
 class Http {
     private app: Express
@@ -23,6 +24,7 @@ class Http {
         this.app.use(bodyParser.json())
         this.app.use(helmet())
         this.app.use(compression())
+        this.app.use(activityLogs(this.logger))
     }
 
     private pageNotFound = () => {
