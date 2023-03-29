@@ -22,7 +22,7 @@ const bannerStore = async (coreData: CoreData) => {
     }
 }
 
-const mappingActivity = (activities: any[]) => {
+const getGroupByDateActivity = (activities: any[]) => {
     const payloads: Record<string, Object[]> = {}
     const dates = []
     for (let index = 0; index < activities.length; index++) {
@@ -59,7 +59,7 @@ const activityStore = async (coreData: CoreData) => {
 
     const activities = await coreData.Activity(firstDayOfMonth, lastDayOfYear)
 
-    const { payloads, dates } = mappingActivity(activities)
+    const { payloads, dates } = getGroupByDateActivity(activities)
 
     for (const payload in payloads) {
         if (Object.prototype.hasOwnProperty.call(payloads, payload)) {
