@@ -36,7 +36,13 @@ class Repository {
 
     public FindAll({ limit, offset }: PropPaginate, query: FindAll) {
         const filters = this.getFilters(query)
-        return this.activity.find(filters).skip(offset).limit(limit)
+        return this.activity
+            .find(filters)
+            .sort({
+                date: 1,
+            })
+            .skip(offset)
+            .limit(limit)
     }
 
     public Count(query: FindAll) {
