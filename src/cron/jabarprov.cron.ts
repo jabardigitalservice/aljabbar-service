@@ -23,7 +23,7 @@ const newsStore = async (jabarprov: Jabarprov) => {
     }
 }
 
-const run = async () => {
+const Run = async () => {
     const { logger } = new Logger(config)
     await Mongo.connect(logger, config)
 
@@ -38,4 +38,4 @@ const run = async () => {
     process.exit()
 }
 
-export default run()
+export default Run()

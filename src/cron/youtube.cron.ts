@@ -28,7 +28,7 @@ const youtubeStore = async (youtube: Youtube) => {
     }
 }
 
-const run = async () => {
+const Run = async () => {
     const { logger } = new Logger(config)
     await Mongo.connect(logger, config)
     try {
@@ -41,4 +41,4 @@ const run = async () => {
     process.exit()
 }
 
-export default run()
+export default Run()
