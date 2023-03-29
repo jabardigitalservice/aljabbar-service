@@ -17,9 +17,9 @@ class Repository {
     private getFilters(query: FindAll) {
         let filters = {}
 
-        const { date, is_today } = query
+        const date = DateTime.fromISO(query.date).toISODate()
 
-        if (is_today) {
+        if (query.is_today) {
             filters = Object.assign(filters, {
                 date: date,
             })
