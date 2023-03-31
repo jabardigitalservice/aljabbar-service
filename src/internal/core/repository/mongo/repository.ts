@@ -21,12 +21,12 @@ class Repository {
 
         if (query.is_today) {
             filters = Object.assign(filters, {
-                date: date,
+                date: new Date(date),
             })
         } else {
             filters = Object.assign(filters, {
                 date: {
-                    $gt: date,
+                    $gt: new Date(date),
                 },
             })
         }
