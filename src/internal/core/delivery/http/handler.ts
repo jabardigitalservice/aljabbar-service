@@ -25,8 +25,12 @@ class Handler {
             try {
                 const paginate = Paginate(req.query)
                 const query = ValidateFormRequest(FindAll, req.query)
-
+                
                 const result = await this.usecase.Activity(paginate, query)
+                this.logger.info("ok", {
+                    query,
+                    paginate,
+                })
                 return res.status(statusCode.OK).json(result)
             } catch (error) {
                 return next(error)
