@@ -19,7 +19,7 @@ const prayerTimesStore = async (prayerTimes: PrayerTimes) => {
 
     for (const calendar of calendars) {
         const date = ConvertTimestampToISODate(calendar.date.timestamp)
-        const times = prayerTimes.FormatTimes(calendar.timings, '+07:00 (WIB)')
+        const times = prayerTimes.FormatTimes(calendar.timings, '+07:00')
 
         await prayerTimesSchema.updateOne(
             {
